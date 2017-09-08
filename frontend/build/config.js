@@ -8,7 +8,7 @@ module.exports = {
     dev: {
         outputPath: path.resolve(__dirname, '../dist'),
         outputPublicPath: '/',
-        port: 8080
+        port: 8081
     },
     prod: {
         outputPath: path.resolve(__dirname, '../dist'),
