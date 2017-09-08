@@ -9,7 +9,10 @@
                         :label="item.label"
                         :value="item.value">
                 </el-option>
+                <!--<el-option label="Male" value="Male"></el-option>-->
+                <!--<el-option label="Female" value="Female"></el-option>-->
             </el-select>
+
         </el-form-item>
 
         <el-form-item v-if='formInline.sex' label="Description">

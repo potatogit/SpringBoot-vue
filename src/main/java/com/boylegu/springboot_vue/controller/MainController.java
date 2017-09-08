@@ -53,16 +53,26 @@ public class MainController {
 
         ArrayList<Map<String, String>> results = new ArrayList<>();
 
-        for (Object value : personsRepository.findSex()) {
+//        for (Object value : personsRepository.findSex()) {
+//
+//            Map<String, String> sex = new HashMap<>();
+//
+//            sex.put("label", value.toString());
+//
+//            sex.put("value", value.toString());
+//
+//            results.add(sex);
+//        }
 
-            Map<String, String> sex = new HashMap<>();
+        Map<String, String> male = new HashMap<>();
+        male.put("label", "Male");
+        male.put("value", "male");
+        results.add(male);
 
-            sex.put("label", value.toString());
-
-            sex.put("value", value.toString());
-
-            results.add(sex);
-        }
+        Map<String, String> female = new HashMap<>();
+        female.put("label", "Female");
+        female.put("value", "female");
+        results.add(female);
 
         ResponseEntity<ArrayList<Map<String, String>>> responseEntity = new ResponseEntity<>(results,
                 HttpStatus.OK);
@@ -110,6 +120,22 @@ public class MainController {
             pages = 1;
 
         }
+
+        Sort sort = new Sort(Direction.ASC, "id");
+
+        Pageable pageable = new PageRequest(pages - 1, maxPerPage, sort);
+
+        PaginationFormatting paginInstance = new PaginationFormatting();
+
+        return paginInstance.filterQuery(sex, email, pageable);
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public Map<String, PaginationMultiTypeValuesHelper> deleteUser(@RequestParam Long id) {
+        personsRepository.delete(id);
+        int pages = 1;
+        String sex = "";
+        String email = "";
 
         Sort sort = new Sort(Direction.ASC, "id");
 

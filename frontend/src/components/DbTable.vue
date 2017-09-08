@@ -48,6 +48,7 @@
                     width="100">
                 <template scope="scope">
                     <el-button @click="editItem(scope.$index, tableData)" type="text" size="large">Edit</el-button>
+                    <el-button @click="deleteItem(scope.$index, tableData)" type="text" size="large">Delete</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -64,7 +65,7 @@
     import DbModal from './DbModal.vue'
 
     export default {
-        data(){
+        data() {
             return {
                 tableData: [],
                 apiUrl: 'http://127.0.0.1:8000/api/persons',
@@ -80,7 +81,7 @@
         components: {
             DbModal
         },
-        mounted () {
+        mounted() {
             this.getCustomers();
             Bus.$on('filterResultData', (data) => {
                 this.tableData = data.results;
@@ -126,6 +127,19 @@
                     this.form = response.data;
                 }).catch(function (response) {
                     console.log(response)
+                });
+            },
+            deleteItem: function (index, rows) {
+                const itemId = rows[index].id;
+                const idUrl = 'http://127.0.0.1:8000/api/persons/delete?id=' + itemId;
+                this.$axios.get(idUrl).then((response) => {
+                    this.tableData = response.data.data.results;
+                    this.total = response.data.data.total;
+                    this.pageSize = response.data.data.count;
+                    console.log(response.data.data);
+
+                }).catch(function (response) {
+                    console.log(response);
                 });
             },
 
