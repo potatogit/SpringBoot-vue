@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="table-container">
         <el-table
                 :data="tableData"
                 border
@@ -42,8 +42,8 @@
                     width="300"
                     :formatter="formatter">
             </el-table-column>
+            <!--fixed="right"-->
             <el-table-column
-                    fixed="right"
                     label="Operation"
                     width="100">
                 <template scope="scope">
@@ -55,7 +55,7 @@
         <el-pagination class="pagination" layout="prev, pager, next" :total="total" :page-size="pageSize"
                        v-on:current-change="changePage">
         </el-pagination>
-        <db-modal :dialogFormVisible="dialogFormVisible" :form="form" v-on:canclemodal="dialogVisible"></db-modal>
+        <db-modal :dialogFormVisible="dialogFormVisible" :form="form" v-on:hide-modal="dialogVisible"></db-modal>
     </div>
 
 </template>
@@ -117,7 +117,7 @@
             },
             changePage: function (currentPage) {
                 this.currentPage = currentPage;
-                this.getCustomers()
+                this.getCustomers();
             },
             editItem: function (index, rows) {
                 this.dialogFormVisible = true;
@@ -159,6 +159,10 @@
     .pagination {
         margin-top: 10px;
         float: right;
+    }
+
+    .table-container {
+        width: 1071px;
     }
 
 </style>
