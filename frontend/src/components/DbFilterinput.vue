@@ -9,18 +9,17 @@
                         :label="item.label"
                         :value="item.value">
                 </el-option>
-                <!--<el-option label="Male" value="Male"></el-option>-->
-                <!--<el-option label="Female" value="Female"></el-option>-->
             </el-select>
 
+            <!--<el-select v-model="formInline.sex" clearable placeholder="select gender">-->
+                <!--<el-option label="Male" value="male"></el-option>-->
+                <!--<el-option label="Female" value="female"></el-option>-->
+            <!--</el-select>-->
         </el-form-item>
 
-        <el-form-item v-if='formInline.sex' label="Description">
-            <el-input v-model="formInline.email" placeholder="Please input suffix of email"></el-input>
-        </el-form-item>
-
-        <el-form-item v-else='formInline.sex' label="Description">
-            <el-input v-model="formInline.email" disabled placeholder="Please input suffix of email"></el-input>
+        <el-form-item label="Description">
+            <el-input v-model="formInline.email" :disabled="!formInline.sex"
+                      placeholder="Please input suffix of email"></el-input>
         </el-form-item>
 
     </el-form>
@@ -44,7 +43,8 @@
         },
 
         watch: {
-            'formInline.sex': 'filterResultData',
+            'formInline.sex': 'watchSexInput',
+//            'formInline.sex': 'filterResultData',
             'formInline.email': 'filterResultData'
         },
 
@@ -60,6 +60,12 @@
                     });
                 }
 
+            },
+            watchSexInput: function () {
+                if (!this.formInline.sex) {
+                    this.formInline.email = "";
+                }
+                this.filterResultData();
             },
             filterResultData: _.debounce(
                 function () {
