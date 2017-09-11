@@ -1,5 +1,6 @@
 <template>
     <div class="table-container">
+        <el-button type="text" size="large" @click="createItem">Create a new user</el-button>
         <el-table
                 :data="tableData"
                 border
@@ -56,6 +57,7 @@
                        v-on:current-change="changePage">
         </el-pagination>
         <db-modal :dialogFormVisible="dialogFormVisible" :form="form" v-on:hide-modal="dialogVisible"></db-modal>
+        <create-modal :isVisible="isCreateModalVisible" :form="form" v-on:hide-modal="hideCreateModal" ></create-modal>
     </div>
 
 </template>
@@ -63,6 +65,7 @@
 <script>
     import Bus from '../eventBus'
     import DbModal from './DbModal.vue'
+    import CreateModal from './CreateModal.vue'
 
     export default {
         data() {
@@ -75,11 +78,13 @@
                 sex: '',
                 email: '',
                 dialogFormVisible: false,
-                form: '',
+                isCreateModalVisible: false,
+                form: ''
             }
         },
         components: {
-            DbModal
+            DbModal,
+            CreateModal
         },
         mounted() {
             this.getCustomers();
@@ -142,11 +147,23 @@
                     console.log(response);
                 });
             },
-
+            createItem: function() {
+                this.form = {
+                  username: "",
+                  email: "",
+                  phone: "",
+                  sex: "",
+                  zone: ""
+                };
+                this.isCreateModalVisible = true;
+            },
+            hideCreateModal: function () {
+              this.isCreateModalVisible = false;
+            },
             formatter(row, column) {
                 let data = this.$moment(row.create_datetime, this.$moment.ISO_8601);
                 return data.format('YYYY-MM-DD')
-            },
+            }
         }
     }
 </script>
