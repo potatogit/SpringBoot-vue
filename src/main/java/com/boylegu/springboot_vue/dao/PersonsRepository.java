@@ -16,9 +16,13 @@ import java.util.Map;
 public interface PersonsRepository extends JpaRepository<Persons, Long> {
 
     public static final String FIND_SEX = "select DISTINCT sex from Persons p";
+    public static final String SELECT_MAX_ID = "select MAX(id) from Persons p";
 
     @Query(FIND_SEX)
     List<Persons> findSex();
+
+    @Query(SELECT_MAX_ID)
+    Long getMaxId();
 
     Page<Persons> findAll(Pageable pageable);
 

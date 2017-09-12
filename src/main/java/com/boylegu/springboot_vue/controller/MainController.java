@@ -22,6 +22,7 @@ import com.boylegu.springboot_vue.dao.PersonsRepository;
 import com.boylegu.springboot_vue.controller.pagination.PaginationMultiTypeValuesHelper;
 import com.boylegu.springboot_vue.controller.pagination.PaginationFormatting;
 
+
 import java.util.*;
 
 
@@ -200,6 +201,18 @@ public class MainController {
         user.setZone(data.getZone());
 
         return personsRepository.save(user);
+    }
+
+    @RequestMapping(value="/create", method = RequestMethod.POST)
+    public void createUser(@RequestBody Persons p) {
+        try{
+            p.setId(personsRepository.getMaxId() + 1);
+            // TODO set time
+            personsRepository.save(p);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
